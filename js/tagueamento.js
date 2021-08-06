@@ -24,7 +24,7 @@ ga('send', 'pageview', location=pathname);
 //---------------------------------------//
 
 
-
+//Function to send analytics
 function gaEventSend(category, action, label) {
     ga('send','event',{
         eventCategory: category,
@@ -54,7 +54,7 @@ function getMaiElements() {
     };
 
 
-    let LoremCard = document.getElementById("card_lorem");
+    let LoremCard = document.getElementById("lorem");
     if (LoremCard !== null) {
         LoremCard.onclick = function () {
             gaEventSend('analise', 'ver_mais', 'Lorem');
