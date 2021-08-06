@@ -20,11 +20,11 @@
 
 ga('create', 'UA-12345-6', 'auto');
 
-ga('send', 'pageview', location=pathname);
+ga('send', 'pageview');
 //---------------------------------------//
 
 
-//Function to send analytics
+//Função para enviar os eventos para o google analytics
 function gaEventSend(category, action, label) {
     ga('send','event',{
         eventCategory: category,
@@ -36,29 +36,71 @@ function gaEventSend(category, action, label) {
 
 
 
-function getMaiElements() {
-    //Send analytics data for click in Entre em Contato link
-    let ContactField = document.getElementsByClassName("menu-lista-link menu-lista-contato");
-    if(ContactField !== null) {
-        ContactField[0].onclick = function(){
-            gaEventSend('menu','entre_em_contato','link_externo')
-        };
-    };
-
-    //Send analytics data for click in Download PDF link
-    let DowloadPDF = document.getElementsByClassName("menu-lista-link menu-lista-download");
-    if(DowloadPDF !== null) {
-        DowloadPDF[0].onclick = function() {
-            gaEventSend('menu', 'download_pdf', 'download_pdf')
-        };
-    };
 
 
-    let LoremCard = document.getElementById("lorem");
-    if (LoremCard !== null) {
-        LoremCard.onclick = function () {
-            gaEventSend('analise', 'ver_mais', 'Lorem');
-        };        
-    };
 
-};
+
+function load(){
+    
+    var contactfield = document.getElementsByClassName("menu-lista-link menu-lista-contato");
+    contactfield[0].addEventListener("click",function(){
+        gaEventSend('menu','entre_em_contato','link_externo')
+    })
+
+    var downloadpdf = document.getElementsByClassName("menu-lista-link menu-lista-download");
+    downloadpdf[0].addEventListener("click",function(){
+        gaEventSend('menu', 'download_pdf', 'download_pdf')
+    })
+
+
+    var ContactNameField = document.getElementById("nome");
+    ContactNameField.addEventListener("change",function(){
+        gaEventSend('contato', 'nome', "preencheu")
+    })
+
+    var ContactEmailField = document.getElementById("email");
+    ContactEmailField.addEventListener("change",function(){
+        gaEventSend('contato', 'email', "preencheu")
+    })
+
+    var ContactPhoneField = document.getElementById("telefone");
+    ContactPhoneField.addEventListener("change",function(){
+        gaEventSend('contato', 'telefone', "preencheu")
+    })       
+    var ContactCheckField = document.getElementById("aceito");
+    ContactCheckField.addEventListener("change",function(){
+        gaEventSend('contato', 'aceito', "preencheu")
+    })     
+
+
+    //Foi criado a ID para o botão para ser possivel mapear o click
+    var sendbutton = document.getElementById("enviaform");
+    sendbutton.addEventListener("click",function(){
+        gaEventSend('contato', 'enviado', "enviado")
+    })
+
+  
+}
+
+$(document).ready(function(){
+    $('.cards-montadoras').on("click", '.card-montadoras',function(){
+        var dataId = $(this).attr("data-id");
+            if(dataId == 'lorem'){
+                gaEventSend('analise', 'ver_mais', 'Lorem');
+
+            }
+
+            else if(dataId == 'ipsum'){
+                gaEventSend('analise', 'ver_mais', 'Ipsum”')
+            }
+
+            else if(dataId == 'dolor'){
+                gaEventSend('analise', 'ver_mais', "Dolor")
+            }
+            
+    });
+});
+
+
+
+document.addEventListener("DOMContentLoaded", load, false);
